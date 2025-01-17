@@ -231,12 +231,12 @@ class Install:
             "https://github.com/protocolbuffers/protobuf.git",
             "protobuf",
             "--single-branch",
-            "--branch=v3.14.0",
+            "--branch=v5.27.0",
             "--depth=1"
         )
 
         os.chdir(os.path.join(self._dowload_path, "gflags"))
-        self._cmd("mkdir -p build")
+        self._cmd("rm -rf build && mkdir -p build")
         os.chdir("build")
         self._cmd(
             "cmake -DCMAKE_CXX_FLAGS='-fPIC' -DREGISTER_INSTALL_PREFIX=OFF -DCMAKE_INSTALL_PREFIX={} -DBUILD_SHARED_LIBS=ON ..".format(
@@ -247,7 +247,7 @@ class Install:
         os.chdir(self._current_path)
 
         os.chdir(os.path.join(self._dowload_path, "glog"))
-        self._cmd("mkdir -p build")
+        self._cmd("rm -rf build && mkdir -p build")
         os.chdir("build")
         self._cmd(
             "cmake -DCMAKE_CXX_FLAGS='-fPIC' -DCMAKE_INSTALL_PREFIX={} -DBUILD_SHARED_LIBS=ON ..".format(
@@ -256,7 +256,7 @@ class Install:
         os.chdir(self._current_path)
 
         os.chdir(os.path.join(self._dowload_path, "googletest"))
-        self._cmd("mkdir -p build")
+        self._cmd("rm -rf build && mkdir -p build")
         os.chdir("build")
         self._cmd(
             "cmake -DCMAKE_CXX_FLAGS='-fPIC -w' -DCMAKE_INSTALL_PREFIX={} -DBUILD_SHARED_LIBS=ON ..".format(
@@ -265,8 +265,9 @@ class Install:
         os.chdir(self._current_path)
 
         os.chdir(os.path.join(self._dowload_path, "protobuf"))
-        os.chdir("cmake")
-        self._cmd("mkdir -p build")
+        #os.chdir("cmake")
+        self._cmd("git submodule update --init --recursive")
+        self._cmd("rm -rf build && mkdir -p build")
         os.chdir("build")
         self._cmd(
             "cmake -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX={} ..".format(
