@@ -160,7 +160,7 @@ bool GetProtoFromJsonFile(const std::string &file_name,
   ifs.close();
   JsonParseOptions options;
   options.ignore_unknown_fields = true;
-  google::protobuf::util::Status dump_status;
+  //google::protobuf::util::Status dump_status;
   return (JsonStringToMessage(Json.dump(), message, options).ok());
 }
 
