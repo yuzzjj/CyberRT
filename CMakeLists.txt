@@ -192,6 +192,10 @@ target_link_libraries(${TARGET_NAME}
     atomic
     dl
     rt
+    absl_log_internal_check_op
+    absl_log_internal_message
+    absl_spinlock_wait
+    absl_raw_logging_internal 
 )
 
 add_subdirectory(cyber/mainboard)
