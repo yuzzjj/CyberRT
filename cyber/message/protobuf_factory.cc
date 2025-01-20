@@ -248,27 +248,40 @@ const Descriptor* ProtobufFactory::FindMessageTypeByFile(
   return descriptor;
 }
 
+#if GOOGLE_PROTOBUF_VERSION <= 3021012
 void ErrorCollector::AddError(const std::string& filename,
                               const std::string& element_name,
                               const google::protobuf::Message* descriptor,
                               ErrorLocation location,
                               const std::string& message) {
+#else
+void RecordError(absl::string_view filename, absl::string_view element_name,
+                const google::protobuf::Message* descriptor,
+                ErrorLocation location, absl::string_view message) {
+#endif
   UNUSED(element_name);
   UNUSED(descriptor);
   UNUSED(location);
   AWARN << "[" << filename << "] " << message;
 }
 
+#if GOOGLE_PROTOBUF_VERSION <= 3021012
 void ErrorCollector::AddWarning(const std::string& filename,
                                 const std::string& element_name,
                                 const google::protobuf::Message* descriptor,
                                 ErrorLocation location,
                                 const std::string& message) {
+#else
+void RecordWarning(absl::string_view filename, absl::string_view element_name,
+                  const google::protobuf::Message* descriptor,
+                  ErrorLocation location, absl::string_view message) {
+#endif
   UNUSED(element_name);
   UNUSED(descriptor);
   UNUSED(location);
   AWARN << "[" << filename << "] " << message;
 }
+
 
 }  // namespace message
 }  // namespace cyber
