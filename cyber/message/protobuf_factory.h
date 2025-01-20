@@ -22,6 +22,7 @@
 #include <mutex>
 #include <string>
 
+#include <google/protobuf/stubs/common.h>
 #include "google/protobuf/compiler/parser.h"
 #include "google/protobuf/descriptor.h"
 #include "google/protobuf/dynamic_message.h"
@@ -45,13 +46,27 @@ using google::protobuf::FileDescriptorProto;
 class ErrorCollector : public google::protobuf::DescriptorPool::ErrorCollector {
   using ErrorLocation =
       google::protobuf::DescriptorPool::ErrorCollector::ErrorLocation;
+
+#if GOOGLE_PROTOBUF_VERSION <= 3021012
   void AddError(const std::string& filename, const std::string& element_name,
                 const google::protobuf::Message* descriptor,
                 ErrorLocation location, const std::string& message) override;
 
+
   void AddWarning(const std::string& filename, const std::string& element_name,
                   const google::protobuf::Message* descriptor,
                   ErrorLocation location, const std::string& message) override;
+#else
+  void RecordError(const std::string& filename, const std::string& element_name,
+                const google::protobuf::Message* descriptor,
+                ErrorLocation location, const std::string& message) override;
+
+
+  void RecordWarning(const std::string& filename, const std::string& element_name,
+                  const google::protobuf::Message* descriptor,
+                  ErrorLocation location, const std::string& message) override;
+#endif
+
 };
 
 class ProtobufFactory {
