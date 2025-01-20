@@ -57,14 +57,14 @@ class ErrorCollector : public google::protobuf::DescriptorPool::ErrorCollector {
                   const google::protobuf::Message* descriptor,
                   ErrorLocation location, const std::string& message) override;
 #else
-  void RecordError(const std::string& filename, const std::string& element_name,
+  void RecordError(absl::string_view filename, absl::string_view element_name,
                 const google::protobuf::Message* descriptor,
-                ErrorLocation location, const std::string& message) override;
+                ErrorLocation location, absl::string_view message) override;
 
 
-  void RecordWarning(const std::string& filename, const std::string& element_name,
+  void RecordWarning(absl::string_view filename, absl::string_view element_name,
                   const google::protobuf::Message* descriptor,
-                  ErrorLocation location, const std::string& message) override;
+                  ErrorLocation location, absl::string_view message) override;
 #endif
 
 };
